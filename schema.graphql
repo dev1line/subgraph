@@ -1,0 +1,29 @@
+type BetInfo @entity {
+  #bet
+  id: ID!
+  round: RollRound
+  player: PlayerInfo
+  betIsEven: Boolean!
+  amount: BigInt!
+}
+
+type PlayerInfo @entity {
+  #bet
+  id: ID!
+  count: BigInt!
+  lastRollId: BigInt!
+  address: Bytes!
+  totalBetAmount: BigInt!
+  rounds: [BetInfo!]! @derivedFrom(field: "player")
+}
+
+type RollRound @entity {
+  #startblock bet withdraw #rolldice
+  id: ID!
+  rollId: BigInt!
+  dealerBalance: BigInt!
+  totalAmountPerRoll: BigInt!
+  resultIsEven: Boolean!
+  isRolledDice: Boolean
+  players: [BetInfo!]! @derivedFrom(field: "round")
+}
